@@ -70,3 +70,43 @@ INSERT INTO TipoDeProductos (idTipoProducto, nombreTipoProducto) VALUES
 (6, 'Tecnología y Electrónica'),
 (7, 'Útiles Escolares'),
 (8, 'Belleza y Cuidado Personal');
+
+INSERT INTO Productos (idProducto, NombreProducto, Descripcion, Precio, Categoria, OtrosAtributos, idTipoProducto, idEstudioCalidad) VALUES (1, 'AGROMAR', 'Atún blanco sólido en aceite de oliva', 250, 'Sólido o compacto', '{ "ContNeto": "230", "ContNetoVeracidad": "TRUE", "MasaDrenada": "160", "MasaDrenadaVeracidad": "TRUE", "Proteina": "25", "Soya": "0%", "InfAlConsumidor": "FALSE", "Presentacion": "TRUE", "MedioDeCobertura": "Aceite de oliva", "Observaciones": "Le falta el sello exceso sodio", "excesoCalorias": "FALSE", "excesoAzucares": "FALSE", "excesoGrasasSaturadas": "FALSE", "excesoGrasasTrans": "FALSE", "excesoSodio": "FALSE" }', 1, 1,);
+INSERT INTO Productos (idProducto, NombreProducto, Descripcion, Precio, Categoria, OtrosAtributos, idTipoProducto, idEstudioCalidad) VALUES (2, 'DOLORES PREMIUM', 'Atún aleta amarilla sólido en aceite', 36, 'Sólido o compacto', '{ "ContNeto": "140", "ContNetoVeracidad": "TRUE", "MasaDrenada": "106", "MasaDrenadaVeracidad": "TRUE", "Proteina": "27.3", "Soya": "0%", "InfAlConsumidor": "TRUE", "Presentacion": "TRUE", "MedioDeCobertura": "Aceite", "Observaciones": "NULL", "excesoCalorias": "FALSE", "excesoAzucares": "FALSE", "excesoGrasasSaturadas": "FALSE", "excesoGrasasTrans": "FALSE", "excesoSodio": "FALSE" }', 1, 1,);
+INSERT INTO Productos (idProducto, NombreProducto, Descripcion, Precio, Categoria, OtrosAtributos, idTipoProducto, idEstudioCalidad) VALUES (3, 'CALMEX', 'Atún aleta amarilla sólido en aceite de oliva extra virgen', 57, 'Sólido o compacto', '{ "ContNeto": "140", "ContNetoVeracidad": "TRUE", "MasaDrenada": "105", "MasaDrenadaVeracidad": "TRUE", "Proteina": "25", "Soya": "0%", "InfAlConsumidor": "FALSE", "Presentacion": "TRUE", "MedioDeCobertura": "Aceite de oliva extra virgen", "Observaciones": "Presenta el distintivo de cumplimiento de la NOM-235, pero no comprueba su uso", "excesoCalorias": "FALSE", "excesoAzucares": "FALSE", "excesoGrasasSaturadas": "TRUE", "excesoGrasasTrans": "FALSE", "excesoSodio": "TRUE" }', 1, 1,);
+INSERT INTO Productos (idProducto, NombreProducto, Descripcion, Precio, Categoria, OtrosAtributos, idTipoProducto, idEstudioCalidad) VALUES (4, 'DOLORES PREMIUM', 'Atún aleta amarilla sólido en aceite de oliva', 45, 'Sólido o compacto', '{ "ContNeto": "140", "ContNetoVeracidad": "TRUE", "MasaDrenada": "106", "MasaDrenadaVeracidad": "TRUE", "Proteina": "26.8", "Soya": "0%", "InfAlConsumidor": "TRUE", "Presentacion": "TRUE", "MedioDeCobertura": "Aceite de oliva", "Observaciones": "NULL", "excesoCalorias": "FALSE", "excesoAzucares": "FALSE", "excesoGrasasSaturadas": "TRUE", "excesoGrasasTrans": "FALSE", "excesoSodio": "TRUE" }', 1, 1,);
+INSERT INTO Productos (idProducto, NombreProducto, Descripcion, Precio, Categoria, OtrosAtributos, idTipoProducto, idEstudioCalidad) VALUES (5, 'DOLORES PREMIUM', 'Atún aleta amarilla sólido en agua', 36, 'Sólido o compacto', '{ "ContNeto": "140", "ContNetoVeracidad": "Cumple", "MasaDrenada": "106", "MasaDrenadaVeracidad": "Cumple", "Proteina": "25.8", "Soya": "0%", "InfAlConsumidor": "Cumple", "Presentacion": "Cumple", "MedioDeCobertura":"Agua", "Observaciones":"NULL", "excesoCalorias":"FALSE", "excesoAzucares":"FALSE", "excesoGrasasSaturadas":"FALSE", "excesoGrasasTrans":"FALSE", "excesoSodio":"FALSE" }', 1, 1,);
+INSERT INTO Productos (idProducto, NombreProducto, Descripcion, Precio, Categoria, OtrosAtributos, idTipoProducto, idEstudioCalidad) VALUES (6, 'EL VELERO ORTIZ', 'Atún blanco en sólido en aceite de oliva', 45, 'Sólido o compacto', '{ "ContNeto": "120", "ContNetoVeracidad": "TRUE", "MasaDrenada": "80", "MasaDrenadaVeracidad": "TRUE", "Proteina": "29", "Soya": "0%", "InfAlConsumidor": "TRUE", "Presentacion": "TRUE", "MedioDeCobertura": "Aceite de oliva extra virgen", "Observaciones": NULL, "excesoCalorias": "FALSE", "excesoAzucares": "FALSE", "excesoGrasasSaturadas": "FALSE", "excesoGrasasTrans": "FALSE", "excesoSodio": "FALSE" }', 1, 1,);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
