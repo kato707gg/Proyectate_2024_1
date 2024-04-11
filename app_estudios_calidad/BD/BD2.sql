@@ -394,3 +394,32 @@ INSERT INTO EstudioSalsasCatsup (
 (21, 'Members Mark', 'Imitacion salsa de catsup', 114, 'Imitacion Salsa catsup', 104, 1144, 20.5, true, 3800, 25.3, 'Ninguna', true, true, false, true, false, false, true, 1),
 (22, 'Del Monte Calidad', 'Imitacion salsa de tomate catsup', 18, 'Imitacion Salsa catsup', 95, 890, 21.2, true, 370, 22.9, 'Ninguna', false, false, false, true, false, false, true, 1),
 (23, 'Tasty DBS', 'Salsa de tomate imitacion catsup', 50, 'Imitacion Salsa catsup', 47, 323, 9.5, false, 280, 9, 'Contiene fructosa que no declara en sus ingredientes', true, true, false, false, false, false, true, 1);
+
+-- INSERT para EstudioPijamas
+INSERT INTO EstudioPijamas (
+  idEstudioPijamas,
+  nombreProducto,
+  descripcion,
+  precio,
+  categoria,
+  infAlConsumidor,
+	calificacionGeneral,
+	acabados,
+	verificacionDeTallas,
+	identificacionDeFibras,
+	solidezDelColor,
+  idTipoProducto
+) VALUES 
+(1, 'Carters', 'Talla 8', 399, 'Pijamas para ninos y ninas', true, 'Excelente', 'Excelente', 'Excelente', 'Cumple', 'Excelente', 5),
+(2, 'Marvel - Spider Man', 'Talla 10', 229, 'Pijamas para ninos y ninas', true, 'Excelente', 'Muy bueno', 'Excelente', 'Cumple', 'Excelente', 5),
+(3, 'Secret Treasures Girls', 'Talla 8', 234, 'Pijamas para ninos y ninas', true, 'Muy bueno', 'Excelente', 'Excelente', 'No cumple', 'Excelente', 5),
+(4, 'Paw Patrol', 'Talla 6', 149, 'Pijamas para ninos y ninas', true, 'Muy bueno', 'Excelente', 'Excelente', 'Cumple', 'Excelente', 5),
+(5, 'One for you by Creysi', 'Talla 8', 259, 'Pijamas para ninos y ninas', true, 'Muy bueno', 'Excelente', 'Excelente', 'Cumple', 'Muy bueno', 5),
+(6, 'Hello Kitty', 'Talla 6', 150, 'Pijamas para ninos y ninas', true, 'Muy bueno', 'Excelente', 'Excelente', 'No cumple', 'Excelente', 5),
+(7, 'Marvel Avengers', 'Talla 6', 359, 'Pijamas para ninos y ninas', true, 'Muy bueno', 'Muy bueno', 'Excelente', 'Cumple', 'Excelente', 5),
+(8, 'Space Exploring', 'Talla G', 149, 'Pijamas para ninos y ninas', true, 'Muy bueno', 'Excelente', 'Excelente', 'No cumple', 'Bueno', 5),
+(9, 'CN We bare bears', 'Talla 8', 199, 'Pijamas para ninos y ninas', true, 'Muy bueno', 'Excelente', 'Excelente', 'Cumple', 'Excelente', 5),
+(10, 'Disney Tim Burtons', 'Talla 6', 200, 'Pijamas para ninos y ninas', true, 'Muy bueno', 'Excelente', 'Excelente', 'No cumple', 'Bueno', 5),
+(11, 'My little pony', 'Talla 8', 219, 'Pijamas para ninos y ninas', true, 'Muy bueno', 'Excelente', 'Excelente', 'Cumple', 'Excelente', 5),
+(12, 'Barbie', 'Talla 10', 220, 'Pijamas para ninos y ninas', true, 'Bueno', 'Muy bueno', 'Excelente', 'Cumple', 'Bueno', 5),
+(13, 'Hello Kitty', 'Talla 6', 210, 'Pijamas para ninos y ninas', true, 'Bueno', 'Muy bueno', 'Excelente', 'No cumple', 'Muy bueno', 5);
