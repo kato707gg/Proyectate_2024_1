@@ -152,6 +152,31 @@ CREATE TABLE `estudiopandecaja` (
   idtipoproducto int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+
+CREATE TABLE `termos_personales` (
+  `idtermospersonales` int(11) NOT NULL,
+  `nombre` varchar(100) DEFAULT NULL,
+  `descripcion` varchar(100) DEFAULT NULL,
+  `capacidad` int(11) DEFAULT NULL,
+  `precio` int(11) DEFAULT NULL,
+  `informacion` tinyint(1) DEFAULT NULL,
+  `calificacion` varchar(10) DEFAULT NULL,
+  `region` varchar(50) DEFAULT NULL,
+  `Diseño` text DEFAULT NULL,
+  `Dimensiones` varchar(100) DEFAULT NULL,
+  `Ensambledelatapa` varchar(10) DEFAULT NULL,
+  `Verificada` varchar(100) DEFAULT NULL,
+  `Peso` float DEFAULT NULL,
+  `Hermeticidad` varchar(100) DEFAULT NULL,
+  `Aguafria` varchar(10) DEFAULT NULL,
+  `Aguacaliente` varchar(10) DEFAULT NULL,
+  `observaciones` text DEFAULT NULL,
+  `idtipoproductos` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
 -- Inserts para los tipos de productos
 INSERT INTO TipoDeProductos (idTipoProducto, nombreTipoProducto) VALUES
 (1, 'Productos Alimenticios'),
@@ -512,6 +537,49 @@ ALTER TABLE `estudiopandecaja`
 ALTER TABLE `estudiopandecaja`
   ADD CONSTRAINT `fk_idtipoproducto` FOREIGN KEY (`idtipoproducto`) REFERENCES `tipodeproductos` (`idTipoProducto`);
 COMMIT;
+
+ -------------------------------------------------
+ --INSERT TERMOS_PERSONALES
+INSERT INTO `termos_personales` (`idtermospersonales`, `nombre`, `descripcion`, `capacidad`, `precio`, `informacion`, `calificacion`, `region`, `Diseño`, `Dimensiones`, `Ensambledelatapa`, `Verificada`, `Peso`, `Hermeticidad`, `Aguafria`, `Aguacaliente`, `observaciones`, `idtipoproductos`) VALUES
+(1, 'TEFAL', 'BLUDROP 0.7 L SLVE BLACK TEF1', 700, 799, 1, 'E', 'China', 'Acero inoxidable con tapa de rosca para beber,con una funda de silicona en la base.', '26.4 x 8 cm', 'E', 'Es veraz y ofrece más 706 m', 420.7, 'E\nNo presenta fugas', 'E', 'E', NULL, 3),
+(2, 'STANLEY + STARBUCKS', '51406', 591, 720, 1, 'E', 'China', 'Acero inoxidable con aislamiento al vacío, con tapa de rosca y tapa exterior que se puede usar como taza con capacidad de 160 m', '29.7 x 7.7 cm', 'E', 'Es veraz y ofrece más 628 ml', 560.4, 'E\nNo presenta fugas', 'E', 'E', 'Ofrece garantía de la empresa STANLEY, sin embargo, no cumple con la Ley Federal de Protección al Consumido', 3),
+(3, 'EKCO', 'TERMO BURBUJA DE CRISTAL AZUL 17682', 600, 259, 1, 'E', 'China', 'Plástico con ampolla de vidrio, con tapa de rosca exterior y tapa exterior que se puede usar como taza con capacidad de 100 ml.', '25.9 x 9.9 cm', 'E', 'Es veraz\r\n600 ml', 362.4, 'E\nNo presenta fugas', 'E', 'MB', NULL, 3),
+(4, 'MR. COFFEE', '131005.01', NULL, 309, 1, 'MB', 'China', 'Acero inoxidable de doble pared con tapa interior de polipropileno de rosca y silicón. Tapa exterior que se puede usar como taza con capacidad de 100 ml y funda completa sintética con asa', '28.1 x 7.7 cm', 'E', '720 m', 479.1, 'E\nNo presenta fugas', 'E', 'E', NULL, 3),
+(5, 'BUILT', 'TERMO ACERO INOXIDABLE 74173', 591, 511, 1, 'MB', 'China', 'Acero inoxidable con tapa de rosca y asa de transporte', '22.9 x 7.3 cm', 'E', 'Es veraz y ofrece más\n624 ml', 346.3, 'E\nNo presenta fugas', 'MB', 'MB', NULL, 3),
+(6, 'EKCO', 'GARRAFA DE ACERO INOXIDABLE 96823', 500, 189, 1, 'MB', 'China', 'Acero inoxidable con tapa de rosca', '27 x 7.16 cm', 'E', 'Es veraz y ofrece más\n515 ml', 301, 'E\nNo presenta fugas', 'MB', 'MB', NULL, 3),
+(7, 'EKCO', 'TERMO DE DOBLE PARED 57848', 500, 449, 1, 'MB', 'China', 'Acero inoxidable de doble pared con tapa de rosca de polipropileno, silicón con boquilla para beber y seguro de abrir y cerrar.', '23.2 x 7.6 cm', 'E', 'Es veraz\n500 ml', 313.2, 'E\nNo presenta fugas', 'MB', 'MB', NULL, 3),
+(8, 'EKCO', 'TERMO ACERO INOXIDABLE DE DOBLE PARED 93617', 528, 325, 1, 'MB', 'China', 'Acero inoxidable de doble pared con tapa de rosca Flip Top y con boquilla para beber.', '21 x 7.2 cm', 'E', 'Es veraz y ofrece más\n530 ml', 283.4, 'E\nNo presenta fugas', 'MB', 'MB', NULL, 3),
+(9, 'MAINSTAYS', 'KB05AF', 500, 199, 1, 'MB', 'China', 'Acero inoxidable, tapa interior de polipropileno tipo rosca. Tapa exterior que se puede usar como taza con capacidad de 100 ml.', '24.4 x 6.9 cm', 'E', 'Es veraz\n500 ml', 309.3, 'E\nNo presenta fugas', 'MB', 'MB', NULL, 3),
+(10, 'MAINSTAYS', 'KB05A-SC', 500, 161, 1, 'MB', 'China', 'Acero inoxidable, tapa interior de polipropileno tipo rosca. Tapa exterior que se puede usar como taza con capacidad de 100 ml.', '24.5 x 6.9 cm ', 'E', 'Es veraz\n500 ml', 303.2, 'E\nNo presenta fugas', 'MB', 'MB', NULL, 3),
+(11, 'MR. COFFEE', '91879.03', 458, 328, 1, 'MB', 'China', 'Acero inoxidable con aislamiento de doble pared. Tapa interior de polipropileno de rosca y silicón. Tapa exterior que se puede usar como taza con capacidad de 100 ml.', '24.2 x 7 cm', 'E', 'y ofrece más\n475 m', 328.5, 'E\nNo presenta fugas', 'MB', 'MB', NULL, 3),
+(12, 'VIVA HYDRATE', 'VHTH-9580', 500, 299, 1, 'MB', 'China', 'Acero inoxidable, tapa de rosca de polipropileno y silicón con asa para transportar.', '24.8 x 7.2 cm', 'E', 'Es veraz y ofrece más\n541 ml', 326.9, 'E\nNo presenta fugas', 'MB', 'B', NULL, 3),
+(13, 'STEINER', 'GL-VF50ZY', 500, 369, 1, 'B', 'China', 'Acero inoxidable de doble pared con tapa interior de polipropileno, de rosca y silicón. Tapa exterior que se puede usar como taza con capacidad de 75 ml.', '24.8 x 6.9 cm', 'E', 'No es veraz\n486 ml', 284, 'E\nNo presenta fugas', 'MB', 'MB', NULL, 3),
+(14, 'MINISO', 'AB-289R-T21', 500, 180, 1, 'B', 'China', 'Acero inoxidable de doble pared con tapa de rosca.', '26.6 x 7.1 cm', 'E', 'No es veraz\n490 ml', 292.9, 'E\nNo presenta fugas', 'MB', 'MB', 'Le caben 10 ml menos de los que declara.', 3),
+(15, 'VIVA HYDRATE', 'VHTH-9771', 500, 229, 1, 'B', 'China', 'Acero inoxidable, tapa interior de polipropileno de rosca y silicón. Tapa exterior que se puede usar como taza con capacidad de 100 ml.', '24.6 x 7.1 cm', 'E', 'No es veraz\n482 ml', 305.3, 'E\nNo presenta fugas', 'MB', 'MB', 'Le caben 18 ml menos de los que declara.', 3),
+(16, 'VIVA HYDRATE', 'VHTH-4185', 500, 209, 1, 'B', 'China', 'Acero inoxidable, tapa interior de polipropileno de rosca y silicón. Tapa exterior que se puede usar como taza con capacidad de 160 ml.', '23.7 x 6.7 cm', 'E', 'No es veraz\n451 m', 266.3, 'E\nNo presenta fugas', 'MB', 'MB', 'Le caben 49 ml menos de los que declara', 3),
+(17, 'CONTIGO', 'MATTERHORN', 591, 410, 1, 'B', 'China', 'Acero inoxidable aislado al vacío, tapa de rosca con boquilla removible y asa para transportar.', '26 x 7.3 cm', 'E', 'Es veraz\r\n y ofrece más\n623 ml', 309, 'E\nNo presenta fugas', 'B', 'B', NULL, 3),
+(18, 'TEFAL', 'TRAVEL MUG GR 0.5 L BLUE SLV TEF', 500, 899, 1, 'B', 'China', 'Acero inoxidable con tapa de rosca y botón para beber con una funda de silicona en el cuerpo del termo', '24 x 7.8 cm', 'E', 'Es veraz\n500 ml', 438.4, 'E\nNo presenta fugas', 'B', 'S', NULL, 3),
+(19, 'QUOKKA', '304', 630, 299, 1, 'E', 'China', 'Acero inoxidable de doble pared aislada al vacío con tapa de rosca.', '24.9 x 7.3 cm', 'E', 'No es veraz\n614 ml', 320.2, 'E\nNo presenta fugas', 'B', 'B', 'Le caben 16 ml menos de los que declara.', 3),
+(20, 'FUN KIDS', 'JY-1500D', 500, 263, 1, 'D', 'China', 'Doble pared con material exterior de plástico e interior de acero inoxidable. Tapa interior de polipropileno de rosca y tapa exterior que se puede usar como taza con capacidad de 100 ml', '23.5 x 7 cm', 'E', 'No es veraz\n420 m', 296.5, 'E\nNo presenta fugas', 'D', 'D', 'Le caben 80 ml menos de los que declara', 3),
+(21, 'SK SIMPLE KITCHEN', 'XD-6810A', 500, 149, 1, 'D', 'China', 'Acero inoxidable, tapa interior de polipropileno de rosca. Tapa exterior que se puede usar como taza con capacidad de 100 ml.', '24.1 x 7.1 cm', 'E', 'No es veraz\n482 ml', 301.3, 'E\nNo presenta fugas', 'D', 'D', 'Le caben 18 ml menos de los que declara.', 3),
+(22, 'NUVÓ', 'H165-QB', NULL, 379, 1, 'D', 'China', 'Acero inoxidable de doble pared, con tapa de polipropileno de rosca con boquilla para beber, de botón abrir/cerrar y correa para transporte', '28.3 x 7.5 cm', 'E', '628 ml', 372.9, 'E\nNo presenta fugas', 'D', 'D', NULL, 3),
+(23, 'RUNNING', 'TERMOLATA THERMOCAN', 500, 479, 0, 'D', 'China', 'Acero inoxidable con tapa de rosca y boquilla para beber', '18.8 x 7.2 cm', 'E', 'No es veraz\n473 ml', 259.5, 'Dpresenta fugas', 'S', 'D', '• Le caben 27 ml menos de los que declara.\nPresenta fugas con agua caliente y fría.\nEl producto de venta a granel no cuenta con la información comercial de acuerdo con la Ley Federal de Protección al Consumidor.', 3);
+
+-- Indices de la tabla `termos_personales`
+--
+ALTER TABLE `termos_personales`
+  ADD PRIMARY KEY (`idtermospersonales`),
+  ADD KEY `fk_idtipoproductos` (`idtipoproductos`);
+
+--Filtros para la tabla `termos_personales`
+--
+ALTER TABLE `termos_personales`
+  ADD CONSTRAINT `fk_idtipoproductos` FOREIGN KEY (`idtipoproductos`) REFERENCES `tipodeproductos` (`idTipoProducto`);
+COMMIT;
+
+
+
+
 
 
 
