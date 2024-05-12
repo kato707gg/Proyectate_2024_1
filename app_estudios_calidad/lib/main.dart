@@ -1,17 +1,12 @@
+import 'package:app_estudios_calidad/Screens/introductionScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:app_estudios_calidad/Screens/introductionScreen.dart';
-import 'package:app_estudios_calidad/Screens/mainPage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-bool show = true;
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final prefs = await SharedPreferences.getInstance();
-  show = prefs.getBool('ON_BOARDING') ?? true;
+void main() {
   runApp(const MyApp());
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
+    statusBarColor: Color.fromARGB(0, 255, 255, 255),
+    statusBarIconBrightness: Brightness.dark,
   ));
 }
 
@@ -20,12 +15,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter On Boarding',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: show ? IntroScreen() : const HomePage(),
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Material App',
+      home: IntroScreen(),
     );
   }
 }

@@ -1,54 +1,73 @@
 import 'package:flutter/material.dart';
-import 'package:app_estudios_calidad/Components/sidebar.dart';
+import 'package:app_estudios_calidad/Screens/ProductCategoryScreens/productSlider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key});
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  bool _showOverlaySlider = false;
+
+  void _toggleOverlaySlider() {
+    setState(() {
+      _showOverlaySlider = !_showOverlaySlider;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Stack(
         children: [
-          BackGround(),
-          Homebody(),
-        ],
-      ),
-      drawer: Sidebar(),
-    );
-  }
-}
-
-class BackGround extends StatelessWidget {
-  const BackGround({Key? key});
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          stops: [0.1, 0.5],
-          colors: [
-            Color.fromARGB(255, 218, 249, 255),
-            Color.fromARGB(255, 255, 255, 255),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class Homebody extends StatelessWidget {
-  const Homebody({Key? key});
-  @override
-  Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-      child: Column(
-        children: [
-          TitleWithButton(),
-          SubTitle(),
-          InvestmentTable(),
+          Column(
+            children: [
+              SizedBox(height: 10),
+              TitleWithButton(),
+              SizedBox(height: 40),
+              SearchBar(),
+              SizedBox(height: 20),
+              SubTitle(),
+              Expanded(
+                child: ProductCategory(
+                  onProductCategoryTap: () {
+                    _toggleOverlaySlider();
+                  },
+                ),
+              ),
+              SizedBox(height: 30),
+            ],
+          ),
+          if (_showOverlaySlider)
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _showOverlaySlider =
+                      false; // Cerrar el OverlaySlider al pulsar fuera de él
+                });
+              },
+              child: Container(
+                color: Colors.transparent,
+              ),
+            ),
+          if (_showOverlaySlider)
+            Center(
+              child: Container(
+                margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).padding.top * 0.5,
+                ),
+                height: MediaQuery.of(context).size.height * 0.8,
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: OverlaySlider(
+                  onClose: () {
+                    _toggleOverlaySlider();
+                  },
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -56,17 +75,18 @@ class Homebody extends StatelessWidget {
 }
 
 class TitleWithButton extends StatelessWidget {
-  const TitleWithButton({super.key});
+  const TitleWithButton({Key? key});
+
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
+    return SafeArea(
       child: Row(
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SidebarButton(),
+              ExitButton(),
             ],
           ),
           Expanded(
@@ -81,38 +101,111 @@ class TitleWithButton extends StatelessWidget {
   }
 }
 
-class SidebarButton extends StatelessWidget {
-  const SidebarButton({super.key});
+class ExitButton extends StatelessWidget {
+  const ExitButton({Key? key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 20),
-      child: ElevatedButton(
-        onPressed: () {
-          Scaffold.of(context).openDrawer();
-        },
-        style: ElevatedButton.styleFrom(
-          shape: const CircleBorder(),
-          backgroundColor: const Color.fromARGB(255, 240, 237, 255),
-          padding: const EdgeInsets.all(12),
-          elevation: 5,
+      margin: const EdgeInsets.only(left: 10),
+      child: FloatingActionButton(
+        onPressed: () {},
+        shape: const CircleBorder(),
+        elevation: 0.0,
+        backgroundColor: Color.fromARGB(0, 255, 255, 255),
+        child: const Icon(Icons.arrow_back_ios_rounded,
+            color: Color.fromARGB(255, 27, 76, 82)),
+      ),
+    );
+  }
+}
+
+class SearchBar extends StatefulWidget {
+  final void Function(String)? onSearch;
+
+  const SearchBar({Key? key, this.onSearch}) : super(key: key);
+
+  @override
+  _SearchBarState createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar> {
+  late TextEditingController _searchController;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _submitSearch(String value) {
+    if (widget.onSearch != null) {
+      widget.onSearch!(value);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      data: Theme.of(context).copyWith(
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: Color.fromARGB(255, 27, 76, 82), // Color del cursor
+          selectionColor: const Color.fromARGB(255, 76, 139, 175)
+              .withOpacity(0.4), // Color de la selección del texto
+          selectionHandleColor: const Color.fromARGB(
+              255, 76, 139, 175), // Color del indicador de selección del texto
         ),
-        child: const Icon(
-          Icons.menu,
-          color: Color.fromARGB(255, 56, 56, 56),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+        child: TextField(
+          controller: _searchController,
+          decoration: InputDecoration(
+            hintText: 'Buscar producto...',
+            prefixIcon:
+                Icon(Icons.search, color: Color.fromARGB(255, 27, 76, 82)),
+            border: OutlineInputBorder(
+                borderRadius:
+                    BorderRadius.circular(35.0) // Color del borde normal
+                ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(35.0),
+              borderSide: BorderSide(
+                  color: Color.fromARGB(
+                      255, 58, 119, 129)), // Color del borde enfocado
+            ),
+            contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+            suffixIcon: IconButton(
+              icon: Icon(
+                Icons.send_rounded,
+                color: Color.fromARGB(255, 27, 76, 82),
+              ),
+              onPressed: () {
+                _submitSearch(_searchController.text);
+              },
+            ),
+          ),
+          onChanged: _submitSearch,
+          onSubmitted: _submitSearch,
         ),
       ),
     );
   }
 }
 
-//EN ESTA BRANCH VOY A ESTAR HACIENDO CAMBIOS
 class Title extends StatelessWidget {
   const Title({Key? key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 0, right: 20),
+      padding: const EdgeInsets.only(left: 0, right: 30),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -120,30 +213,22 @@ class Title extends StatelessWidget {
             text: TextSpan(
               style: GoogleFonts.quicksand(
                 letterSpacing: null,
-                fontSize: 35,
+                fontSize: 25,
                 fontWeight: FontWeight.w500,
                 color: const Color.fromARGB(255, 0, 0, 0),
               ),
               children: const [
                 TextSpan(
-                  text: 'A',
-                  style: TextStyle(color: Color.fromARGB(255, 131, 33, 243)),
+                  text: 'Poke',
+                  style: TextStyle(color: Color.fromARGB(255, 27, 76, 82)),
                 ),
-                TextSpan(text: 'UR'),
                 TextSpan(
-                  text: 'I',
-                  style: TextStyle(color: Color.fromARGB(255, 131, 33, 243)),
+                  text: 'Consumo',
+                  style: TextStyle(color: Color.fromARGB(255, 101, 144, 150)),
                 ),
               ],
             ),
             textAlign: TextAlign.end,
-          ),
-          SizedBox(
-            height: 60,
-            child: Image.asset(
-              'assets/rana.png',
-              fit: BoxFit.contain,
-            ),
           ),
         ],
       ),
@@ -153,6 +238,7 @@ class Title extends StatelessWidget {
 
 class SubTitle extends StatelessWidget {
   const SubTitle({Key? key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -162,19 +248,19 @@ class SubTitle extends StatelessWidget {
         children: [
           const SizedBox(height: 25),
           Text(
-            'Descubre el poder de la IA',
+            'Tipos de productos',
             style: GoogleFonts.poppins(
-              fontSize: 35,
+              fontSize: 30,
               fontWeight: FontWeight.w600,
-              color: const Color.fromARGB(255, 45, 45, 85),
+              color: Color.fromARGB(255, 27, 76, 82),
             ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 15),
           Text(
-            'Obten las mejores fotos y aumenta\ntu productividad',
+            'Navega en las distintas categorías',
             style: GoogleFonts.poppins(
-              fontSize: 18,
+              fontSize: 15,
               fontWeight: FontWeight.w500,
               color: const Color.fromARGB(255, 85, 85, 85),
             ),
@@ -187,30 +273,64 @@ class SubTitle extends StatelessWidget {
   }
 }
 
-class InvestmentTable extends StatelessWidget {
-  const InvestmentTable({Key? key});
+class ProductCategory extends StatelessWidget {
+  final VoidCallback? onProductCategoryTap;
+
+  const ProductCategory({Key? key, this.onProductCategoryTap})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return SingleChildScrollView(
+      child: Column(
         children: [
-          MyInvestmentsCard(
+          ProductCategoryCard(
             imagen: 'assets/photo_edit.jpg',
-            texto: 'Editar fotos',
+            texto: 'Productos Alimenticios',
+            hasPadding: true,
+            onTap: onProductCategoryTap,
           ),
-          /*MyInvestmentsCard(
+          ProductCategoryCard(
             imagen: 'assets/noche_estrellada.jpg',
-            texto: 'Estilo Artístico',
-          ),*/
-          MyInvestmentsCard(
-            imagen: 'assets/foto_antigua.jpg',
-            texto: 'Recuerdos\ndel Pasado',
+            texto: 'Electrodomésticos',
+            hasPadding: true,
+            onTap: onProductCategoryTap,
           ),
-          MyInvestmentsCard(
+          ProductCategoryCard(
+            imagen: 'assets/foto_antigua.jpg',
+            texto: 'Accesorios de\nCocina y Hogar',
+            hasPadding: true,
+            onTap: onProductCategoryTap,
+          ),
+          ProductCategoryCard(
             imagen: 'assets/modificar_imagen.jpg',
-            texto: 'Modificar objetos\nen imagen',
+            texto: 'Productos de Limpieza\ny Cuidado Personal',
+            hasPadding: true,
+            onTap: onProductCategoryTap,
+          ),
+          ProductCategoryCard(
+            imagen: 'assets/photo_edit.jpg',
+            texto: 'Ropa y Accesorios',
+            hasPadding: true,
+            onTap: onProductCategoryTap,
+          ),
+          ProductCategoryCard(
+            imagen: 'assets/noche_estrellada.jpg',
+            texto: 'Tecnología y Electrónica',
+            hasPadding: true,
+            onTap: onProductCategoryTap,
+          ),
+          ProductCategoryCard(
+            imagen: 'assets/foto_antigua.jpg',
+            texto: 'Útiles Escolares',
+            hasPadding: true,
+            onTap: onProductCategoryTap,
+          ),
+          ProductCategoryCard(
+            imagen: 'assets/modificar_imagen.jpg',
+            texto: 'Belleza y Cuidado\nPersonal',
+            hasPadding: false,
+            onTap: onProductCategoryTap,
           ),
         ],
       ),
@@ -218,85 +338,70 @@ class InvestmentTable extends StatelessWidget {
   }
 }
 
-class MyInvestmentsCard extends StatelessWidget {
+class ProductCategoryCard extends StatelessWidget {
   final String imagen;
   final String texto;
-  const MyInvestmentsCard({
-    super.key,
+  final bool hasPadding; // Indica si se debe aplicar padding
+  final VoidCallback? onTap; // Callback para manejar el evento onTap
+  const ProductCategoryCard({
+    Key? key,
     required this.imagen,
     required this.texto,
-  });
+    required this.hasPadding,
+    this.onTap,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      /*onTap: () {
-        // Determina la pantalla a la que debe navegar según la tarjeta clicada
-        if (texto == 'Editar fotos') {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => PhotoEditor()),
-          );
-        } else if (texto == 'Estilo Artístico') {
-        } else if (texto == 'Recuerdos\ndel Pasado') {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => EditPhotoScreen(),
-            ),
-          );
-        } else if (texto == 'Modificar objetos\nen imagen') {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ModificarObjetos(),
-            ),
-          );
-        }
-      },*/
+      onTap: onTap, // Llamar al onTap si está definido
       child: Column(
         children: <Widget>[
-          Container(
-            margin: const EdgeInsets.fromLTRB(30, 0, 30, 20),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              image: DecorationImage(
-                image: AssetImage(imagen),
-                fit: BoxFit.cover,
-              ),
-            ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(30, 0, 30,
+                hasPadding ? 20 : 0), // Aplicamos padding solo si es necesario
             child: Container(
-              height: 120,
-              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                gradient: LinearGradient(
-                  begin: Alignment.centerRight,
-                  end: Alignment.centerLeft,
-                  colors: [
-                    const Color.fromARGB(0, 143, 143, 143).withOpacity(0.1),
-                    const Color.fromARGB(255, 59, 59, 59).withOpacity(0.4),
-                    const Color.fromARGB(255, 0, 0, 0).withOpacity(0.6),
-                  ],
+                image: DecorationImage(
+                  image: AssetImage(imagen),
+                  fit: BoxFit.cover,
                 ),
               ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      texto,
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
+              child: Container(
+                height: 150,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  gradient: LinearGradient(
+                    begin: Alignment.centerRight,
+                    end: Alignment.centerLeft,
+                    colors: [
+                      const Color.fromARGB(0, 143, 143, 143).withOpacity(0.1),
+                      const Color.fromARGB(255, 59, 59, 59).withOpacity(0.4),
+                      const Color.fromARGB(255, 0, 0, 0).withOpacity(0.6),
+                    ],
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        texto,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
-                  ),
-                  const Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    size: 30,
-                  ),
-                ],
+                    Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
