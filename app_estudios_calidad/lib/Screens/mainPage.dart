@@ -11,10 +11,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _showOverlaySlider = false;
+  String _selectedCategory = ''; // Aquí almacenarás la categoría seleccionada
 
-  void _toggleOverlaySlider() {
+  void _toggleOverlaySlider([String? categoryName]) {
+    // Cambiar la definición de la función
     setState(() {
       _showOverlaySlider = !_showOverlaySlider;
+      _selectedCategory = categoryName ??
+          ''; // Usar categoryName si está presente, de lo contrario, usar una cadena vacía
     });
   }
 
@@ -45,8 +49,7 @@ class _HomePageState extends State<HomePage> {
             GestureDetector(
               onTap: () {
                 setState(() {
-                  _showOverlaySlider =
-                      false; // Cerrar el OverlaySlider al pulsar fuera de él
+                  _showOverlaySlider = false;
                 });
               },
               child: Container(
@@ -59,9 +62,11 @@ class _HomePageState extends State<HomePage> {
                 margin: EdgeInsets.only(
                   top: MediaQuery.of(context).padding.top * 0.5,
                 ),
-                height: MediaQuery.of(context).size.height * 0.8,
+                height: MediaQuery.of(context).size.height * 0.75,
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: OverlaySlider(
+                  selectedCategory:
+                      _selectedCategory, // Pasa la categoría seleccionada
                   onClose: () {
                     _toggleOverlaySlider();
                   },
@@ -285,49 +290,49 @@ class ProductCategory extends StatelessWidget {
       child: Column(
         children: [
           ProductCategoryCard(
-            imagen: 'assets/photo_edit.jpg',
+            imagen: 'assets/productosAlimenticios.jpg',
             texto: 'Productos Alimenticios',
             hasPadding: true,
             onTap: onProductCategoryTap,
           ),
           ProductCategoryCard(
-            imagen: 'assets/noche_estrellada.jpg',
+            imagen: 'assets/electrodomesticos.jpg',
             texto: 'Electrodomésticos',
             hasPadding: true,
             onTap: onProductCategoryTap,
           ),
           ProductCategoryCard(
-            imagen: 'assets/foto_antigua.jpg',
+            imagen: 'assets/hogarCocina.jpg',
             texto: 'Accesorios de\nCocina y Hogar',
             hasPadding: true,
             onTap: onProductCategoryTap,
           ),
           ProductCategoryCard(
-            imagen: 'assets/modificar_imagen.jpg',
+            imagen: 'assets/limpiezaCuidadoPersonal.png',
             texto: 'Productos de Limpieza\ny Cuidado Personal',
             hasPadding: true,
             onTap: onProductCategoryTap,
           ),
           ProductCategoryCard(
-            imagen: 'assets/photo_edit.jpg',
+            imagen: 'assets/ropaAccesorios.jpg',
             texto: 'Ropa y Accesorios',
             hasPadding: true,
             onTap: onProductCategoryTap,
           ),
           ProductCategoryCard(
-            imagen: 'assets/noche_estrellada.jpg',
+            imagen: 'assets/tecnologiaElectronica',
             texto: 'Tecnología y Electrónica',
             hasPadding: true,
             onTap: onProductCategoryTap,
           ),
           ProductCategoryCard(
-            imagen: 'assets/foto_antigua.jpg',
+            imagen: 'assets/utilesEscolares.jpg',
             texto: 'Útiles Escolares',
             hasPadding: true,
             onTap: onProductCategoryTap,
           ),
           ProductCategoryCard(
-            imagen: 'assets/modificar_imagen.jpg',
+            imagen: 'assets/bellezaCuidadoPersonal.jpg',
             texto: 'Belleza y Cuidado\nPersonal',
             hasPadding: false,
             onTap: onProductCategoryTap,
