@@ -4,6 +4,37 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+Future<List<Map<String, dynamic>>> getProductInfo(String categoryName) async {
+  final url =
+      Uri.parse('http://192.168.31.202/conexion.php?category=$categoryName');
+
+  try {
+    final response = await http.get(url);
+
+    print('Status code: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    if (response.statusCode == 200) {
+      // Decodificar la respuesta JSON
+      final List<dynamic> jsonDataList = json.decode(response.body);
+      final List<Map<String, dynamic>> dataList = [];
+
+      // Iterar sobre los datos decodificados y agregar cada mapa a la lista
+      jsonDataList.forEach((jsonData) {
+        dataList.add(Map<String, dynamic>.from(jsonData));
+      });
+
+      return dataList;
+    } else {
+      throw Exception(
+          'Error al obtener la información del producto: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error al realizar la solicitud HTTP: $e');
+    throw Exception('Error al obtener la información del producto');
+  }
+}
+
 class OverlaySlider extends StatelessWidget {
   final String selectedCategory;
   final VoidCallback? onClose;
@@ -24,22 +55,32 @@ class OverlaySlider extends StatelessWidget {
           body: Center(
             child: FutureBuilder(
               future: getProductInfo(selectedCategory),
-              builder: (context, snapshot) {
+              builder: (context,
+                  AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator();
                 } else if (snapshot.hasError) {
                   return Text('Error al cargar la información');
                 } else {
-                  return PageView(
-                    scrollDirection: Axis.vertical,
-                    children: [
-                      VerticalCard(
-                        title: snapshot.data?['title'] ?? '',
-                        description: snapshot.data?['description'] ?? '',
-                        onClose: onClose,
-                      ),
-                    ],
-                  );
+                  final List<Map<String, dynamic>> productInfoList =
+                      snapshot.data ?? [];
+                  if (productInfoList.isNotEmpty) {
+                    return PageView(
+                      scrollDirection: Axis.vertical,
+                      children: productInfoList.map((productInfo) {
+                        return VerticalCard(
+                          title: productInfo['titulo'] ?? '',
+                          description: productInfo['descripcionEstudio'] ?? '',
+                          onClose: onClose,
+                          colorTitulo: productInfo['colorTitulo'] ?? '',
+                          colorFondo: productInfo['colorFondo'] ?? '',
+                        );
+                      }).toList(),
+                    );
+                  } else {
+                    return Text(
+                        'No se encontraron productos para la categoría especificada');
+                  }
                 }
               },
             ),
@@ -50,59 +91,42 @@ class OverlaySlider extends StatelessWidget {
   }
 }
 
-Future<Map<String, dynamic>> getProductInfo(String categoryName) async {
-  final url = Uri.parse(
-      'http://localhost/Conexion/conexion.php?category=$categoryName');
-
-  try {
-    final response = await http.get(url);
-
-    print('Status code: ${response.statusCode}');
-    print('Response body: ${response.body}');
-
-    if (response.statusCode == 200) {
-      // Decodificar la respuesta JSON
-      final Map<String, dynamic> data = json.decode(response.body);
-
-      return data;
-    } else {
-      throw Exception(
-          'Error al obtener la información del producto: ${response.statusCode}');
-    }
-  } catch (e) {
-    print('Error al realizar la solicitud HTTP: $e');
-    throw Exception('Error al obtener la información del producto');
-  }
-}
-
 class VerticalCard extends StatelessWidget {
   final String title;
   final String description;
+  final String colorTitulo;
+  final String colorFondo;
   final VoidCallback? onClose;
 
   const VerticalCard({
     Key? key,
     required this.title,
     required this.description,
+    required this.colorTitulo,
+    required this.colorFondo,
     this.onClose,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final List<String> WordsNum = title.split(' ');
-    final bool OneWord = WordsNum.length == 1;
-    final bool MultWords = WordsNum.length > 5;
-
+    final List<String> wordsNum = title.split(' ');
+    final bool oneWord = wordsNum.length == 1;
+    final bool multWords = wordsNum.length > 5;
+    int colorInt = int.parse(colorTitulo.replaceFirst('#', '0xff'));
+    double opacityFactor = 0.8;
+    int modifiedColorInt =
+        (colorInt & 0x00FFFFFF) | ((0xFF * opacityFactor).toInt() << 24);
+    Color modifiedColor = Color(modifiedColorInt);
     int maxLinesForTitle =
         2; // Por defecto, permitimos hasta 2 líneas para el título
-    if (OneWord) {
+    if (oneWord) {
       maxLinesForTitle = 1;
-    } else if (MultWords) {
+    } else if (multWords) {
       maxLinesForTitle = 3;
     }
 
     return Card(
-      color: Color.fromARGB(255, 255, 245, 225),
+      color: Color(int.parse(colorFondo.replaceFirst('#', '0xff'))),
       child: Stack(
         children: [
           Row(
@@ -113,7 +137,7 @@ class VerticalCard extends StatelessWidget {
                 alignment: Alignment.topRight,
                 icon: Icon(
                   Icons.close,
-                  color: Color.fromARGB(255, 148, 148, 148),
+                  color: Colors.grey,
                 ),
                 onPressed: () {
                   if (onClose != null) {
@@ -137,7 +161,8 @@ class VerticalCard extends StatelessWidget {
                         child: AutoSizeText(
                           title,
                           style: TextStyle(
-                            color: Color.fromARGB(255, 216, 46, 46),
+                            color: Color(int.parse(
+                                colorTitulo.replaceFirst('#', '0xff'))),
                             fontSize: 60,
                             fontWeight: FontWeight.bold,
                             height: 1.0,
@@ -152,7 +177,7 @@ class VerticalCard extends StatelessWidget {
                           textAlign: TextAlign.justify,
                           description,
                           style: TextStyle(
-                            color: const Color.fromARGB(255, 94, 94, 94),
+                            color: Color.fromARGB(255, 94, 94, 94),
                             fontSize: 25.0,
                             height: 1.5,
                             overflow: TextOverflow.visible,
@@ -172,7 +197,7 @@ class VerticalCard extends StatelessWidget {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 8),
-                        backgroundColor: Color.fromARGB(255, 68, 68, 68),
+                        backgroundColor: modifiedColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),

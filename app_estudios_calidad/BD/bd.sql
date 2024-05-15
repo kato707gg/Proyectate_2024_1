@@ -6,6 +6,7 @@ CREATE TABLE TipoDeProductos (
 
 CREATE TABLE InfoRelevante (
     idInfoRelevante INT PRIMARY KEY,
+    titulo VARCHAR(255),
     descripcionEstudio TEXT,
     colorTitulo VARCHAR(20),
     colorFondo VARCHAR(20),
@@ -194,10 +195,10 @@ INSERT INTO TipoDeProductos (idTipoProducto, nombreTipoProducto) VALUES
 (8, 'Belleza y Cuidado Personal');
 
 -- Inserts para la info relevante
-INSERT INTO InfoRelevante (idInfoRelevante, descripcionEstudio, colorTitulo, colorFondo, idTipoProducto) VALUES
-(1, 'Al parecer, hacer en casa tu propia mayonesa tradicional ha perdido lugar ante la comodidad de simplemente abrir un envase de mayonesa industrializada. Elaborar tu mayonesa es un hábito sano, fácil y rápido. Sin embargo, si buscas solo abrir un envase para agregar sabor a tus platillos, conoce de qué están realmente hechas las mayonesas y aderezos para que consideres agregarlos o no a lo que comes.','#C01F22','#EFEBE2', 1),
-(2, 'El atún envasado es una fuente de proteína accesible, por ello es importante conocer las diferentes presentaciones que existen en el mercado, cuánta soya y proteína contienen y cómo le afecta la entrada en vigor de la nueva regulación a la que está sujeto.\nDe nuevo pusimos a prueba a algunos de estos productos para que no te den soya por atún. Entérate de lo que encontramos.','#C4AC6A','#DEEBF1', 1),
-(3, 'La cátsup es un aderezo tan cotidiano que pocas veces nos detenemos a revisar con ojo crítico sus ingredientes y creemos que solo está elaborada con jitomate, pero esto no es tan cierto como parece. Pusimos a prueba estos productos, entérate de lo que encontramos.','#9F231D','#F5F5F5', 1),
+INSERT INTO InfoRelevante (idInfoRelevante, titulo, descripcionEstudio, colorTitulo, colorFondo, idTipoProducto) VALUES
+(1, 'Mayonesas', 'Al parecer, hacer en casa tu propia mayonesa tradicional ha perdido lugar ante la comodidad de simplemente abrir un envase de mayonesa industrializada. Elaborar tu mayonesa es un hábito sano, fácil y rápido. Sin embargo, si buscas solo abrir un envase para agregar sabor a tus platillos, conoce de qué están realmente hechas las mayonesas y aderezos para que consideres agregarlos o no a lo que comes.','#C01F22','#EFEBE2', 1),
+(2, 'Atún envasado', 'El atún envasado es una fuente de proteína accesible, por ello es importante conocer las diferentes presentaciones que existen en el mercado, cuánta soya y proteína contienen y cómo le afecta la entrada en vigor de la nueva regulación a la que está sujeto.\nDe nuevo pusimos a prueba a algunos de estos productos para que no te den soya por atún. Entérate de lo que encontramos.','#C4AC6A','#DEEBF1', 1),
+(3, 'Salsa cátsup', 'La cátsup es un aderezo tan cotidiano que pocas veces nos detenemos a revisar con ojo crítico sus ingredientes y creemos que solo está elaborada con jitomate, pero esto no es tan cierto como parece. Pusimos a prueba estos productos, entérate de lo que encontramos.','#9F231D','#F5F5F5', 1);
 
 -- INSERT para EstudioAtunes
 INSERT INTO EstudioAtunes (idEstudioAtunes, nombreProducto, descripcion, precio, categoria, contNeto, contNetoVeracidad, masaDrenada, masaDrenadaVeracidad, proteina, soya, infAlConsumidor, presentacion, observaciones, medioDeCobertura, excesoCalorias, excesoAzucares, excesoGrasasSaturadas, excesoGrasasTrans, excesoSodio, idTipoProducto) VALUES 
