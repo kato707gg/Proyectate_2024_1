@@ -305,7 +305,7 @@ class ProductCategory extends StatelessWidget {
             hasPadding: true,
             onTap: () {
               if (onProductCategoryTap != null) {
-                onProductCategoryTap!('Productos Alimenticios');
+                onProductCategoryTap!('Electrodomésticos');
               }
             },
           ),
@@ -315,7 +315,7 @@ class ProductCategory extends StatelessWidget {
             hasPadding: true,
             onTap: () {
               if (onProductCategoryTap != null) {
-                onProductCategoryTap!('Productos Alimenticios');
+                onProductCategoryTap!('Accesorios de Cocina y Hogar');
               }
             },
           ),
@@ -325,7 +325,8 @@ class ProductCategory extends StatelessWidget {
             hasPadding: true,
             onTap: () {
               if (onProductCategoryTap != null) {
-                onProductCategoryTap!('Productos Alimenticios');
+                onProductCategoryTap!(
+                    'Productos de Limpieza y Cuidado Personal');
               }
             },
           ),
@@ -335,7 +336,7 @@ class ProductCategory extends StatelessWidget {
             hasPadding: true,
             onTap: () {
               if (onProductCategoryTap != null) {
-                onProductCategoryTap!('Productos Alimenticios');
+                onProductCategoryTap!('Ropa y Accesorios');
               }
             },
           ),
@@ -345,7 +346,7 @@ class ProductCategory extends StatelessWidget {
             hasPadding: true,
             onTap: () {
               if (onProductCategoryTap != null) {
-                onProductCategoryTap!('Productos Alimenticios');
+                onProductCategoryTap!('Tecnología y Electrónica');
               }
             },
           ),
@@ -355,7 +356,7 @@ class ProductCategory extends StatelessWidget {
             hasPadding: true,
             onTap: () {
               if (onProductCategoryTap != null) {
-                onProductCategoryTap!('Productos Alimenticios');
+                onProductCategoryTap!('Útiles Escolares');
               }
             },
           ),
@@ -365,7 +366,7 @@ class ProductCategory extends StatelessWidget {
             hasPadding: false,
             onTap: () {
               if (onProductCategoryTap != null) {
-                onProductCategoryTap!('Productos Alimenticios');
+                onProductCategoryTap!('Belleza y Cuidado Personal');
               }
             },
           ),

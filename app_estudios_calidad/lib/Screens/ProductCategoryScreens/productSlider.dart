@@ -45,6 +45,11 @@ class OverlaySlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () {
+        if (onClose != null) {
+          onClose!();
+        }
+      },
       child: BackdropFilter(
         filter: ImageFilter.blur(
           sigmaX: 5,
@@ -60,7 +65,50 @@ class OverlaySlider extends StatelessWidget {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator();
                 } else if (snapshot.hasError) {
-                  return Text('Error al cargar la información');
+                  return GestureDetector(
+                    onTap: () {
+                      if (onClose != null) {
+                        onClose!();
+                      }
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 30),
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(200, 0, 0, 0),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.error_outline,
+                              color: Colors.red,
+                              size: 50,
+                            ),
+                            SizedBox(height: 10),
+                            AutoSizeText(
+                              textAlign: TextAlign.center,
+                              'No se encontraron productos para la categoría especificada',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                            SizedBox(height: 30),
+                            AutoSizeText(
+                              textAlign: TextAlign.center,
+                              'Toca para intentar nuevamente',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
                 } else {
                   final List<Map<String, dynamic>> productInfoList =
                       snapshot.data ?? [];
@@ -78,8 +126,42 @@ class OverlaySlider extends StatelessWidget {
                       }).toList(),
                     );
                   } else {
-                    return Text(
-                        'No se encontraron productos para la categoría especificada');
+                    return GestureDetector(
+                      onTap: () {
+                        if (onClose != null) {
+                          onClose!();
+                        }
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              AutoSizeText(
+                                'Error al cargar la información',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(height: 10),
+                              AutoSizeText(
+                                'Toca para intentar nuevamente',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
                   }
                 }
               },
@@ -125,15 +207,25 @@ class VerticalCard extends StatelessWidget {
       maxLinesForTitle = 3;
     }
 
+    final mediaQuery = MediaQuery.of(context);
+    final screenWidth = mediaQuery.size.width;
+
+    double buttonWidth = 200;
+    if (screenWidth < 400) {
+      buttonWidth = screenWidth * 0.6;
+      ;
+    }
+
     return Card(
       color: Color(int.parse(colorFondo.replaceFirst('#', '0xff'))),
-      child: Stack(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               IconButton(
-                padding: EdgeInsets.all(15),
+                padding: EdgeInsets.only(top: 10, right: 10),
                 alignment: Alignment.topRight,
                 icon: Icon(
                   Icons.close,
@@ -147,93 +239,82 @@ class VerticalCard extends StatelessWidget {
               ),
             ],
           ),
-          Container(
-            padding: EdgeInsets.fromLTRB(30, 50, 30, 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        child: AutoSizeText(
-                          title,
-                          style: TextStyle(
-                            color: Color(int.parse(
-                                colorTitulo.replaceFirst('#', '0xff'))),
-                            fontSize: 60,
-                            fontWeight: FontWeight.bold,
-                            height: 1.0,
-                          ),
-                          softWrap: true,
-                          maxLines: maxLinesForTitle, // Ajuste de maxLines
-                        ),
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 30),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: AutoSizeText(
+                      title,
+                      style: TextStyle(
+                        color: Color(
+                            int.parse(colorTitulo.replaceFirst('#', '0xff'))),
+                        fontSize: 50,
+                        fontWeight: FontWeight.bold,
+                        height: 1.0,
                       ),
-                      SizedBox(height: 15.0),
-                      Flexible(
-                        child: AutoSizeText(
-                          textAlign: TextAlign.justify,
-                          description,
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 94, 94, 94),
-                            fontSize: 25.0,
-                            height: 1.5,
-                            overflow: TextOverflow.visible,
-                          ),
-                          softWrap: true,
-                          maxFontSize: 25.0, // Tamaño máximo de fuente
-                          minFontSize: 15.0, // Tamaño mínimo de fuente
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 8),
-                        backgroundColor: modifiedColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      onPressed: () {
-                        // Navigate to another screen
-                      },
-                      child: Container(
-                        padding: EdgeInsets.only(left: 6),
-                        width: 200, // Ancho deseado
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Ver productos  ',
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 235, 235, 235),
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                height: 1.0,
-                              ),
-                            ),
-                            Icon(
-                              Icons.arrow_circle_right_rounded,
-                              color: Color.fromARGB(255, 235, 235, 235),
-                              size: 30.0,
-                            )
-                          ],
-                        ),
-                      ),
+                      softWrap: true,
+                      maxLines: maxLinesForTitle, // Ajuste de maxLines
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                  SizedBox(height: 15.0),
+                  Flexible(
+                    child: AutoSizeText(
+                      textAlign: TextAlign.justify,
+                      description,
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 94, 94, 94),
+                        fontSize: 30.0,
+                        height: 1.5,
+                        overflow: TextOverflow.visible,
+                      ),
+                      softWrap: true,
+                    ),
+                  ),
+                  SizedBox(height: 15.0),
+                ],
+              ),
             ),
           ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.symmetric(vertical: 8),
+              backgroundColor: modifiedColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            onPressed: () {
+              // Navigate to another screen
+            },
+            child: Container(
+              padding: EdgeInsets.only(left: 6),
+              width: buttonWidth, // Ancho deseado
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Ver productos  ',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 235, 235, 235),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      height: 1.0,
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_circle_right_rounded,
+                    color: Color.fromARGB(255, 235, 235, 235),
+                    size: 30.0,
+                  )
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 30.0),
         ],
       ),
     );
