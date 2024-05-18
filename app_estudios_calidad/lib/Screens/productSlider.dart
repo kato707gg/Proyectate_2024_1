@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:app_estudios_calidad/Screens/productInfo.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -288,7 +289,10 @@ class VerticalCard extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              // Navigate to another screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ProductInfoPage()),
+              );
             },
             child: Container(
               padding: EdgeInsets.only(left: 6),

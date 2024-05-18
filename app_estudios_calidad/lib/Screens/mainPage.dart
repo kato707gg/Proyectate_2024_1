@@ -1,5 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:app_estudios_calidad/Screens/ProductCategoryScreens/productSlider.dart';
+import 'package:app_estudios_calidad/Screens/productSlider.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,7 +30,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           Column(
             children: [
-              SizedBox(height: 10),
+              SizedBox(height: 5),
               TitleWithButton(),
               SizedBox(height: 40),
               SearchBar(),
@@ -104,20 +106,115 @@ class TitleWithButton extends StatelessWidget {
   }
 }
 
+class Title extends StatelessWidget {
+  const Title({Key? key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 0, right: 30),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          RichText(
+            text: TextSpan(
+              style: GoogleFonts.quicksand(
+                letterSpacing: null,
+                fontSize: 25,
+                fontWeight: FontWeight.w500,
+              ),
+              children: const [
+                TextSpan(
+                  text: 'Poke',
+                  style: TextStyle(color: Color.fromARGB(255, 27, 76, 82)),
+                ),
+                TextSpan(
+                  text: 'Consumo',
+                  style: TextStyle(color: Color.fromARGB(255, 101, 144, 150)),
+                ),
+              ],
+            ),
+            textAlign: TextAlign.end,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class ExitButton extends StatelessWidget {
-  const ExitButton({Key? key});
+  const ExitButton({Key? key}) : super(key: key);
+
+  void _showExitConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            textAlign: TextAlign.center,
+            'Confirmación de salida',
+            style: TextStyle(
+              color: Color.fromARGB(255, 41, 41, 41),
+              fontSize: MediaQuery.of(context).size.width * 0.055,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          content: Text(
+            '¿Estás seguro de que deseas salir de la aplicación?',
+            style: TextStyle(
+              color: const Color.fromARGB(255, 68, 68, 68),
+              fontSize: MediaQuery.of(context).size.width * 0.04,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cerrar el cuadro de diálogo
+              },
+              child: Text(
+                'No',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 29, 110, 116),
+                  fontSize: MediaQuery.of(context).size.width * 0.05,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cerrar el cuadro de diálogo
+                // Salir de la aplicación
+                SystemNavigator.pop();
+              },
+              child: Text(
+                'Sí',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 29, 110, 116),
+                  fontSize: MediaQuery.of(context).size.width * 0.05,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(left: 10),
       child: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => _showExitConfirmationDialog(context),
         shape: const CircleBorder(),
         elevation: 0.0,
         backgroundColor: Color.fromARGB(0, 255, 255, 255),
-        child: const Icon(Icons.arrow_back_ios_rounded,
-            color: Color.fromARGB(255, 27, 76, 82)),
+        child: const Icon(
+          Icons.arrow_back_ios_rounded,
+          color: Color.fromARGB(255, 27, 76, 82),
+        ),
       ),
     );
   }
@@ -197,43 +294,6 @@ class _SearchBarState extends State<SearchBar> {
           onChanged: _submitSearch,
           onSubmitted: _submitSearch,
         ),
-      ),
-    );
-  }
-}
-
-class Title extends StatelessWidget {
-  const Title({Key? key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 0, right: 30),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          RichText(
-            text: TextSpan(
-              style: GoogleFonts.quicksand(
-                letterSpacing: null,
-                fontSize: 25,
-                fontWeight: FontWeight.w500,
-                color: const Color.fromARGB(255, 0, 0, 0),
-              ),
-              children: const [
-                TextSpan(
-                  text: 'Poke',
-                  style: TextStyle(color: Color.fromARGB(255, 27, 76, 82)),
-                ),
-                TextSpan(
-                  text: 'Consumo',
-                  style: TextStyle(color: Color.fromARGB(255, 101, 144, 150)),
-                ),
-              ],
-            ),
-            textAlign: TextAlign.end,
-          ),
-        ],
       ),
     );
   }
