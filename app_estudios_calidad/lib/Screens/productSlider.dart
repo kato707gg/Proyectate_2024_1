@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-Future<List<Map<String, dynamic>>> getProductInfo(String categoryName) async {
-  final url =
-      Uri.parse('http://192.168.31.202/conexion.php?category=$categoryName');
+Future<List<Map<String, dynamic>>> getProductInfo(int idTipoProducto) async {
+  final url = Uri.parse(
+      'http://192.168.31.202/conexion.php?idTipoProducto=$idTipoProducto');
 
   try {
     final response = await http.get(url);
@@ -17,7 +17,10 @@ Future<List<Map<String, dynamic>>> getProductInfo(String categoryName) async {
 
     if (response.statusCode == 200) {
       // Decodificar la respuesta JSON
-      final List<dynamic> jsonDataList = json.decode(response.body);
+      final Map<String, dynamic> jsonData = json.decode(response.body);
+
+      // Acceder a la lista "InfoRelevante" dentro del objeto JSON
+      final List<dynamic> jsonDataList = jsonData['InfoRelevante'];
       final List<Map<String, dynamic>> dataList = [];
 
       // Iterar sobre los datos decodificados y agregar cada mapa a la lista
@@ -37,20 +40,16 @@ Future<List<Map<String, dynamic>>> getProductInfo(String categoryName) async {
 }
 
 class OverlaySlider extends StatelessWidget {
-  final String selectedCategory;
+  final int selectedIdTipoProducto; // Cambiar a int
   final VoidCallback? onClose;
 
-  OverlaySlider({Key? key, required this.selectedCategory, this.onClose})
+  OverlaySlider({Key? key, required this.selectedIdTipoProducto, this.onClose})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        if (onClose != null) {
-          onClose!();
-        }
-      },
+      onTap: () {},
       child: BackdropFilter(
         filter: ImageFilter.blur(
           sigmaX: 5,
@@ -60,7 +59,8 @@ class OverlaySlider extends StatelessWidget {
           backgroundColor: Colors.transparent,
           body: Center(
             child: FutureBuilder(
-              future: getProductInfo(selectedCategory),
+              future: getProductInfo(
+                  selectedIdTipoProducto), // Cambiar a selectedIdTipoProducto
               builder: (context,
                   AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -123,6 +123,7 @@ class OverlaySlider extends StatelessWidget {
                           onClose: onClose,
                           colorTitulo: productInfo['colorTitulo'] ?? '',
                           colorFondo: productInfo['colorFondo'] ?? '',
+                          idTipoProducto: productInfo['idTipoProducto'] ?? 0,
                         );
                       }).toList(),
                     );
@@ -179,6 +180,7 @@ class VerticalCard extends StatelessWidget {
   final String description;
   final String colorTitulo;
   final String colorFondo;
+  final int idTipoProducto; // Agrega este parámetro
   final VoidCallback? onClose;
 
   const VerticalCard({
@@ -187,6 +189,7 @@ class VerticalCard extends StatelessWidget {
     required this.description,
     required this.colorTitulo,
     required this.colorFondo,
+    required this.idTipoProducto, // Actualiza el constructor
     this.onClose,
   }) : super(key: key);
 
@@ -291,7 +294,12 @@ class VerticalCard extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const ProductInfoPage()),
+                MaterialPageRoute(
+                  builder: (context) => ProductInfoPage(
+                    idTipoProducto: idTipoProducto,
+                    categoria: '',
+                  ),
+                ),
               );
             },
             child: Container(

@@ -13,13 +13,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _showOverlaySlider = false;
-  String _selectedCategory = '';
+  int _selectedIdTipoProducto =
+      0; // Nuevo campo para almacenar el ID del tipo de producto
 
-  void _toggleOverlaySlider(String categoryName) {
-    // Ajusta el método para aceptar un argumento
+  void _toggleOverlaySlider(int idTipoProducto) {
     setState(() {
       _showOverlaySlider = !_showOverlaySlider;
-      _selectedCategory = categoryName;
+      _selectedIdTipoProducto =
+          idTipoProducto; // Guarda el ID del tipo de producto seleccionado
     });
   }
 
@@ -38,8 +39,7 @@ class _HomePageState extends State<HomePage> {
               SubTitle(),
               Expanded(
                 child: ProductCategory(
-                  onProductCategoryTap:
-                      _toggleOverlaySlider, // Pasa la función aquí
+                  onProductCategoryTap: _toggleOverlaySlider,
                 ),
               ),
               SizedBox(height: 30),
@@ -65,10 +65,9 @@ class _HomePageState extends State<HomePage> {
                 height: MediaQuery.of(context).size.height * 0.75,
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: OverlaySlider(
-                  selectedCategory: _selectedCategory,
+                  selectedIdTipoProducto: _selectedIdTipoProducto,
                   onClose: () {
-                    _toggleOverlaySlider(
-                        _selectedCategory); // Pasa la categoría seleccionada
+                    _toggleOverlaySlider(_selectedIdTipoProducto);
                   },
                 ),
               ),
@@ -337,10 +336,9 @@ class SubTitle extends StatelessWidget {
 }
 
 class ProductCategory extends StatelessWidget {
-  final void Function(String)?
-      onProductCategoryTap; // Ajusta el tipo de la función aquí
+  final void Function(int) onProductCategoryTap;
 
-  const ProductCategory({Key? key, this.onProductCategoryTap})
+  const ProductCategory({Key? key, required this.onProductCategoryTap})
       : super(key: key);
 
   @override
@@ -355,7 +353,7 @@ class ProductCategory extends StatelessWidget {
             onTap: () {
               if (onProductCategoryTap != null) {
                 onProductCategoryTap!(
-                    'Productos Alimenticios'); // Pasa el nombre de la categoría
+                    1); // Por ejemplo, pasa el ID del tipo de producto
               }
             },
           ),
@@ -365,7 +363,7 @@ class ProductCategory extends StatelessWidget {
             hasPadding: true,
             onTap: () {
               if (onProductCategoryTap != null) {
-                onProductCategoryTap!('Electrodomésticos');
+                onProductCategoryTap!(2);
               }
             },
           ),
@@ -375,7 +373,7 @@ class ProductCategory extends StatelessWidget {
             hasPadding: true,
             onTap: () {
               if (onProductCategoryTap != null) {
-                onProductCategoryTap!('Accesorios de Cocina y Hogar');
+                onProductCategoryTap!(3);
               }
             },
           ),
@@ -385,8 +383,7 @@ class ProductCategory extends StatelessWidget {
             hasPadding: true,
             onTap: () {
               if (onProductCategoryTap != null) {
-                onProductCategoryTap!(
-                    'Productos de Limpieza y Cuidado Personal');
+                onProductCategoryTap!(4);
               }
             },
           ),
@@ -396,7 +393,7 @@ class ProductCategory extends StatelessWidget {
             hasPadding: true,
             onTap: () {
               if (onProductCategoryTap != null) {
-                onProductCategoryTap!('Ropa y Accesorios');
+                onProductCategoryTap!(5);
               }
             },
           ),
@@ -406,7 +403,7 @@ class ProductCategory extends StatelessWidget {
             hasPadding: true,
             onTap: () {
               if (onProductCategoryTap != null) {
-                onProductCategoryTap!('Tecnología y Electrónica');
+                onProductCategoryTap!(6);
               }
             },
           ),
@@ -416,7 +413,7 @@ class ProductCategory extends StatelessWidget {
             hasPadding: true,
             onTap: () {
               if (onProductCategoryTap != null) {
-                onProductCategoryTap!('Útiles Escolares');
+                onProductCategoryTap!(7);
               }
             },
           ),
@@ -426,7 +423,7 @@ class ProductCategory extends StatelessWidget {
             hasPadding: false,
             onTap: () {
               if (onProductCategoryTap != null) {
-                onProductCategoryTap!('Belleza y Cuidado Personal');
+                onProductCategoryTap!(8);
               }
             },
           ),

@@ -138,7 +138,7 @@ CREATE TABLE EstudioPijamas (
   FOREIGN KEY (idTipoProducto) REFERENCES TipoDeProductos(idTipoProducto)
 );
 
-CREATE TABLE `estudiopandecaja` (
+CREATE TABLE estudiopandecaja (
   idPancaja int(11) NOT NULL,
   nombre varchar(100) DEFAULT NULL,
   descripcion varchar(100) DEFAULT NULL,
@@ -159,29 +159,31 @@ CREATE TABLE `estudiopandecaja` (
   excesoGrasasSaturadas tinyint(1) DEFAULT NULL,
   excesoGrasasTrans tinyint(1) DEFAULT NULL,
   excesoSodio tinyint(1) DEFAULT NULL,
-  idtipoproducto int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  idTipoProducto int(11) DEFAULT NULL,
+  FOREIGN KEY (idTipoProducto) REFERENCES TipoDeProductos(idTipoProducto)
+);
 
-CREATE TABLE `termos_personales` (
-  `idtermospersonales` int(11) NOT NULL,
-  `nombre` varchar(100) DEFAULT NULL,
-  `descripcion` varchar(100) DEFAULT NULL,
-  `capacidad` int(11) DEFAULT NULL,
-  `precio` int(11) DEFAULT NULL,
-  `informacion` tinyint(1) DEFAULT NULL,
-  `calificacion` varchar(10) DEFAULT NULL,
-  `region` varchar(50) DEFAULT NULL,
-  `Diseño` text DEFAULT NULL,
-  `Dimensiones` varchar(100) DEFAULT NULL,
-  `Ensambledelatapa` varchar(10) DEFAULT NULL,
-  `Verificada` varchar(100) DEFAULT NULL,
-  `Peso` float DEFAULT NULL,
-  `Hermeticidad` varchar(100) DEFAULT NULL,
-  `Aguafria` varchar(10) DEFAULT NULL,
-  `Aguacaliente` varchar(10) DEFAULT NULL,
-  `observaciones` text DEFAULT NULL,
-  `idtipoproductos` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE termos_personales (
+  idtermospersonales int(11) NOT NULL,
+  nombre varchar(100) DEFAULT NULL,
+  descripcion varchar(100) DEFAULT NULL,
+  capacidad int(11) DEFAULT NULL,
+  precio int(11) DEFAULT NULL,
+  informacion tinyint(1) DEFAULT NULL,
+  calificacion varchar(10) DEFAULT NULL,
+  region varchar(50) DEFAULT NULL,
+  Diseño text DEFAULT NULL,
+  Dimensiones varchar(100) DEFAULT NULL,
+  Ensambledelatapa varchar(10) DEFAULT NULL,
+  Verificada varchar(100) DEFAULT NULL,
+  Peso float DEFAULT NULL,
+  Hermeticidad varchar(100) DEFAULT NULL,
+  Aguafria varchar(10) DEFAULT NULL,
+  Aguacaliente varchar(10) DEFAULT NULL,
+  observaciones text DEFAULT NULL,
+  idTipoProducto int(11) DEFAULT NULL,
+  FOREIGN KEY (idTipoProducto) REFERENCES TipoDeProductos(idTipoProducto)
+);
 
 -- Inserts para los tipos de productos
 INSERT INTO TipoDeProductos (idTipoProducto, nombreTipoProducto) VALUES
@@ -196,13 +198,13 @@ INSERT INTO TipoDeProductos (idTipoProducto, nombreTipoProducto) VALUES
 
 -- Inserts para la info relevante
 INSERT INTO InfoRelevante (idInfoRelevante, titulo, descripcionEstudio, colorTitulo, colorFondo, idTipoProducto) VALUES
-(1, 'Mayonesas y aderezos', 'Al parecer, hacer en casa tu propia mayonesa tradicional ha perdido lugar ante la comodidad de simplemente abrir un envase de mayonesa industrializada. Elaborar tu mayonesa es un hábito sano, fácil y rápido. Sin embargo, si buscas solo abrir un envase para agregar sabor a tus platillos, conoce de qué están realmente hechas las mayonesas y aderezos para que consideres agregarlos o no a lo que comes.','#C01F22','#EFEBE2', 1),
-(2, 'Atún envasado', 'El atún envasado es una fuente de proteína accesible, por ello es importante conocer las diferentes presentaciones que existen en el mercado, cuánta soya y proteína contienen y cómo le afecta la entrada en vigor de la nueva regulación a la que está sujeto.\nDe nuevo pusimos a prueba a algunos de estos productos para que no te den soya por atún. Entérate de lo que encontramos.','#C4AC6A','#DEEBF1', 1),
-(3, 'Salsa cátsup', 'La cátsup es un aderezo tan cotidiano que pocas veces nos detenemos a revisar con ojo crítico sus ingredientes y creemos que solo está elaborada con jitomate, pero esto no es tan cierto como parece. Pusimos a prueba estos productos, entérate de lo que encontramos.','#9F231D','#F5F5F5', 1),
-(4, 'Termos personales', 'Ya sea que lleves café o té es importante conocer las características que ofrecen estos recipientes, pues en el mercado existe una amplia variedad de modelos con precios y calidades muy diferentes. Checa los resultados y elige el que no se derrame y, sobre todo, que sea seguro.','#312F30','#DDDDEA', 3),
-(5, 'Servilletas', 'Las servilletas de papel son necesarias todos los días, ya sea durante el desayuno, la comida o la cena. Por ello, el laboratorio de la Profeco analizó la calidad de algunos modelos y así ayudarte a elegir de forma adecuada.','#4D7DBF','#F4F7FE', 3),
-(6, 'Cafeteras de goteo', 'Las cafeteras de goteo, también conocidas como cafeteras de filtro, continúan siendo muy populares, pues el resultado de su desempeño es un café con:\n• Cuerpo más ligero\n• Mayor cantidad de cafeína\n• Aromas y matices más acentuados (en los modelos mejor calificados en este Estudio de Calidad)','#7A4036','#F6F6F6', 3),
-(7, 'Pan de caja', 'El pan es un alimento común en la dieta de los consumidores mexicanos. Proporciona energía al organismo, ya que contiene carbohidratos. También, aporta proteínas de origen vegetal, así como grasa, sodio y, según el cereal con el que se elabore, puede aportar fibra.\nPusimos a prueba algunas marcas de pan de caja industrializado','#FF9013','#F0E9DF', 1),
+(1, 'Termos personales', 'Ya sea que lleves café o té es importante conocer las características que ofrecen estos recipientes, pues en el mercado existe una amplia variedad de modelos con precios y calidades muy diferentes. Checa los resultados y elige el que no se derrame y, sobre todo, que sea seguro.','#312F30','#DDDDEA', 3),
+(2, 'Mayonesas y aderezos', 'Al parecer, hacer en casa tu propia mayonesa tradicional ha perdido lugar ante la comodidad de simplemente abrir un envase de mayonesa industrializada. Elaborar tu mayonesa es un hábito sano, fácil y rápido. Sin embargo, si buscas solo abrir un envase para agregar sabor a tus platillos, conoce de qué están realmente hechas las mayonesas y aderezos para que consideres agregarlos o no a lo que comes.','#C01F22','#EFEBE2', 1),
+(3, 'Servilletas', 'Las servilletas de papel son necesarias todos los días, ya sea durante el desayuno, la comida o la cena. Por ello, el laboratorio de la Profeco analizó la calidad de algunos modelos y así ayudarte a elegir de forma adecuada.','#4D7DBF','#F4F7FE', 3),
+(4, 'Cafeteras de goteo', 'Las cafeteras de goteo, también conocidas como cafeteras de filtro, continúan siendo muy populares, pues el resultado de su desempeño es un café con:\n• Cuerpo más ligero\n• Mayor cantidad de cafeína\n• Aromas y matices más acentuados (en los modelos mejor calificados en este Estudio de Calidad)','#7A4036','#F6F6F6', 3),
+(5, 'Atún envasado', 'El atún envasado es una fuente de proteína accesible, por ello es importante conocer las diferentes presentaciones que existen en el mercado, cuánta soya y proteína contienen y cómo le afecta la entrada en vigor de la nueva regulación a la que está sujeto.\nDe nuevo pusimos a prueba a algunos de estos productos para que no te den soya por atún. Entérate de lo que encontramos.','#C4AC6A','#DEEBF1', 1),
+(6, 'Pan de caja', 'El pan es un alimento común en la dieta de los consumidores mexicanos. Proporciona energía al organismo, ya que contiene carbohidratos. También, aporta proteínas de origen vegetal, así como grasa, sodio y, según el cereal con el que se elabore, puede aportar fibra.\nPusimos a prueba algunas marcas de pan de caja industrializado','#FF9013','#F0E9DF', 1),
+(7, 'Salsa cátsup', 'La cátsup es un aderezo tan cotidiano que pocas veces nos detenemos a revisar con ojo crítico sus ingredientes y creemos que solo está elaborada con jitomate, pero esto no es tan cierto como parece. Pusimos a prueba estos productos, entérate de lo que encontramos.','#9F231D','#F5F5F5', 1),
 (8, 'Pijamas para niñas y niños', 'Conoce las características de estas prendas y haz rendir tu presupuesto.\n Pusimos a prueba la calidad, resistencia, durabilidad, entre otras características, que presentan las principales marcas y modelos de pijamas para niñas y niños y así orientarte en tu compra','#1E304E','#A9D2FF', 5);
 
 -- INSERT para EstudioAtunes
@@ -490,11 +492,8 @@ INSERT INTO EstudioPijamas (
 (12, 'Barbie', 'Talla 10', 220, 'Pijamas para ninos y ninas', true, 'Bueno', 'Muy bueno', 'Excelente', 'Cumple', 'Bueno', 5),
 (13, 'Hello Kitty', 'Talla 6', 210, 'Pijamas para ninos y ninas', true, 'Bueno', 'Muy bueno', 'Excelente', 'No cumple', 'Muy bueno', 5);
 
-
-
-
 --INSERT de estudio de caja
-INSERT INTO `estudiopandecaja` (`idPancaja`, `nombre`, `descripcion`, `gramos`, `precio`, `informacionconsumidor`, `azucarestotales`, `sodio`, `Calidadsanitaria`, `Proteina`, `grasa`, `fibra`, `carbohidratos`, `contenidoenergetico`, `observacion`, `excesoCalorias`, `excesoAzucares`, `excesoGrasasSaturadas`, `excesoGrasasTrans`, `excesoSodio`, `idtipoproducto`) VALUES
+INSERT INTO estudiopandecaja (idPancaja, nombre, descripcion, gramos, precio, informacionconsumidor, azucarestotales, sodio, Calidadsanitaria, Proteina, grasa, fibra, carbohidratos, contenidoenergetico, observacion, excesoCalorias, excesoAzucares, excesoGrasasSaturadas, excesoGrasasTrans, excesoSodio, idtipoproducto) VALUES
 (1, 'BIMBO CERO CERO MULTIGRANO', 'Pan de harina de trigo integral', 610, 65, NULL, 4.3, 225, 1, 13.7, 2.2, 4.3, 39.9, 234, 'Declara 1.2 g de azúcares totales y contiene 4.3 g', 0, 0, 0, 0, 0, 1),
 (2, 'ELIZONDO', 'Pan multigrano', 500, 55, NULL, 4.7, 435, 1, 11, 7.4, 4.3, 46.6, 297, 'No cumple con todos los requisitos de información comercial y sanitaria de la norma de etiquetado', 0, 0, 0, 0, 1, 1),
 (3, 'EL MOLINO BLANCO DE MATEO', 'Pan de linaza', 610, 37, NULL, 7.7, 393, 1, 11.1, 6.3, 6.9, 38.5, 255, 'Se denomina \"Pan de linaza\", pero en su lista de ingredientes la linaza está en décimo lugar\nPresenta el distintivo de la NOM-247, pero no comprueba su uso', 0, 0, 0, 0, 1, 1),
@@ -541,23 +540,10 @@ INSERT INTO `estudiopandecaja` (`idPancaja`, `nombre`, `descripcion`, `gramos`, 
 (44, 'NATURES OWN THICK SLICED BRIOCHE STYLE BREAD', 'Brioche style bread', 624, 81, NULL, 15, 405, 1, 9.6, 3.5, 2.4, 50.9, 273, 'Su información no está en español, por lo que incumple la NOM 051.\nNo presenta su información nutrimental por 100 g de producto, por lo que incumple la NOM 051.', 0, 0, 0, 0, 0, 1),
 (45, 'PAN BUENO', 'Pan blanco', 500, 39, NULL, 13, 335, 1, 8.5, 4.4, 2.3, 51.3, 278, 'Declara 6.2 g de azúcares totales y contiene 13 g\n Le falta el sello de exceso de sodio', 0, 0, 0, 0, 0, 1),
 (46, 'WONDER', 'Pan de harina de trigo con ajonjolí', 567, 58, NULL, 7.2, 497, 1, 10.6, 3.6, 2.3, 46.7, 262, 'Declara 5.6 g de azúcares totales y contiene 7.2 g', 0, 0, 0, 0, 1, 1);
-
-
--- Indices de la tabla `estudiopandecaja`
---
-ALTER TABLE `estudiopandecaja`
-  ADD PRIMARY KEY (`idPancaja`),
-  ADD KEY `fk_idtipoproducto` (`idtipoproducto`);
-
--- Filtros para la tabla `estudiopandecaja`
---
-ALTER TABLE `estudiopandecaja`
-  ADD CONSTRAINT `fk_idtipoproducto` FOREIGN KEY (`idtipoproducto`) REFERENCES `tipodeproductos` (`idTipoProducto`);
-COMMIT;
-
+ 
  -------------------------------------------------
  --INSERT TERMOS_PERSONALES
-INSERT INTO `termos_personales` (`idtermospersonales`, `nombre`, `descripcion`, `capacidad`, `precio`, `informacion`, `calificacion`, `region`, `Diseño`, `Dimensiones`, `Ensambledelatapa`, `Verificada`, `Peso`, `Hermeticidad`, `Aguafria`, `Aguacaliente`, `observaciones`, `idtipoproductos`) VALUES
+INSERT INTO termos_personales (idtermospersonales, nombre, descripcion, capacidad, precio, informacion, calificacion, region, Diseño, Dimensiones, Ensambledelatapa, Verificada, Peso, Hermeticidad, Aguafria, Aguacaliente, observaciones, idtipoproducto) VALUES
 (1, 'TEFAL', 'BLUDROP 0.7 L SLVE BLACK TEF1', 700, 799, 1, 'E', 'China', 'Acero inoxidable con tapa de rosca para beber,con una funda de silicona en la base.', '26.4 x 8 cm', 'E', 'Es veraz y ofrece más 706 m', 420.7, 'E\nNo presenta fugas', 'E', 'E', NULL, 3),
 (2, 'STANLEY + STARBUCKS', '51406', 591, 720, 1, 'E', 'China', 'Acero inoxidable con aislamiento al vacío, con tapa de rosca y tapa exterior que se puede usar como taza con capacidad de 160 m', '29.7 x 7.7 cm', 'E', 'Es veraz y ofrece más 628 ml', 560.4, 'E\nNo presenta fugas', 'E', 'E', 'Ofrece garantía de la empresa STANLEY, sin embargo, no cumple con la Ley Federal de Protección al Consumido', 3),
 (3, 'EKCO', 'TERMO BURBUJA DE CRISTAL AZUL 17682', 600, 259, 1, 'E', 'China', 'Plástico con ampolla de vidrio, con tapa de rosca exterior y tapa exterior que se puede usar como taza con capacidad de 100 ml.', '25.9 x 9.9 cm', 'E', 'Es veraz\r\n600 ml', 362.4, 'E\nNo presenta fugas', 'E', 'MB', NULL, 3),
@@ -581,25 +567,3 @@ INSERT INTO `termos_personales` (`idtermospersonales`, `nombre`, `descripcion`, 
 (21, 'SK SIMPLE KITCHEN', 'XD-6810A', 500, 149, 1, 'D', 'China', 'Acero inoxidable, tapa interior de polipropileno de rosca. Tapa exterior que se puede usar como taza con capacidad de 100 ml.', '24.1 x 7.1 cm', 'E', 'No es veraz\n482 ml', 301.3, 'E\nNo presenta fugas', 'D', 'D', 'Le caben 18 ml menos de los que declara.', 3),
 (22, 'NUVÓ', 'H165-QB', NULL, 379, 1, 'D', 'China', 'Acero inoxidable de doble pared, con tapa de polipropileno de rosca con boquilla para beber, de botón abrir/cerrar y correa para transporte', '28.3 x 7.5 cm', 'E', '628 ml', 372.9, 'E\nNo presenta fugas', 'D', 'D', NULL, 3),
 (23, 'RUNNING', 'TERMOLATA THERMOCAN', 500, 479, 0, 'D', 'China', 'Acero inoxidable con tapa de rosca y boquilla para beber', '18.8 x 7.2 cm', 'E', 'No es veraz\n473 ml', 259.5, 'Dpresenta fugas', 'S', 'D', '• Le caben 27 ml menos de los que declara.\nPresenta fugas con agua caliente y fría.\nEl producto de venta a granel no cuenta con la información comercial de acuerdo con la Ley Federal de Protección al Consumidor.', 3);
-
--- Indices de la tabla `termos_personales`
---
-ALTER TABLE `termos_personales`
-  ADD PRIMARY KEY (`idtermospersonales`),
-  ADD KEY `fk_idtipoproductos` (`idtipoproductos`);
-
---Filtros para la tabla `termos_personales`
---
-ALTER TABLE `termos_personales`
-  ADD CONSTRAINT `fk_idtipoproductos` FOREIGN KEY (`idtipoproductos`) REFERENCES `tipodeproductos` (`idTipoProducto`);
-COMMIT;
-
-
-
-
-
-
-
-
-
-
