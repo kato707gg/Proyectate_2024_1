@@ -256,7 +256,7 @@ class _SearchBarState extends State<SearchBar> {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: paddingSearchBar),
+        padding: const EdgeInsets.symmetric(horizontal: 30),
         child: GestureDetector(
           onTap: () => _onSearchPressed(context),
           child: Container(
