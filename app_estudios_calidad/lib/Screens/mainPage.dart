@@ -245,7 +245,7 @@ class _SearchBarState extends State<SearchBar> {
 
   @override
   Widget build(BuildContext context) {
-    double paddingSearchBar = MediaQuery.of(context).size.height * 0.04;
+    double paddingSearchBar = MediaQuery.of(context).size.height * 0;
     return Theme(
       data: Theme.of(context).copyWith(
         textSelectionTheme: TextSelectionThemeData(
@@ -256,7 +256,8 @@ class _SearchBarState extends State<SearchBar> {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
+        padding:
+            EdgeInsets.symmetric(horizontal: 30, vertical: paddingSearchBar),
         child: GestureDetector(
           onTap: () => _onSearchPressed(context),
           child: Container(
