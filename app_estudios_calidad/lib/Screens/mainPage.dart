@@ -1,7 +1,9 @@
-import 'package:auto_size_text/auto_size_text.dart';
+import 'package:app_estudios_calidad/Screens/productInfo.dart';
+import 'package:app_estudios_calidad/Screens/product_detailed.dart';
 import 'package:flutter/material.dart';
 import 'package:app_estudios_calidad/Screens/productSlider.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,14 +15,19 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _showOverlaySlider = false;
-  int _selectedIdTipoProducto =
-      0; // Nuevo campo para almacenar el ID del tipo de producto
+  int _selectedIdTipoProducto = 0;
+  List<Map<String, dynamic>> _productDetails = []; // Add this line
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch or initialize _productDetails here
+  }
 
   void _toggleOverlaySlider(int idTipoProducto) {
     setState(() {
       _showOverlaySlider = !_showOverlaySlider;
-      _selectedIdTipoProducto =
-          idTipoProducto; // Guarda el ID del tipo de producto seleccionado
+      _selectedIdTipoProducto = idTipoProducto;
     });
   }
 
@@ -31,10 +38,10 @@ class _HomePageState extends State<HomePage> {
         children: [
           Column(
             children: [
-              SizedBox(height: 5),
+              SizedBox(height: 10),
               TitleWithButton(),
               SizedBox(height: 40),
-              SearchBar(),
+              SearchBar(productDetails: _productDetails),
               SizedBox(height: 20),
               SubTitle(),
               Expanded(
@@ -220,78 +227,204 @@ class ExitButton extends StatelessWidget {
 }
 
 class SearchBar extends StatefulWidget {
-  final void Function(String)? onSearch;
+  final List<Map<String, dynamic>> productDetails;
 
-  const SearchBar({Key? key, this.onSearch}) : super(key: key);
+  const SearchBar({Key? key, required this.productDetails}) : super(key: key);
 
   @override
   _SearchBarState createState() => _SearchBarState();
 }
 
 class _SearchBarState extends State<SearchBar> {
-  late TextEditingController _searchController;
-
-  @override
-  void initState() {
-    super.initState();
-    _searchController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  void _submitSearch(String value) {
-    if (widget.onSearch != null) {
-      widget.onSearch!(value);
-    }
+  void _onSearchPressed(BuildContext context) {
+    showSearch(
+      context: context,
+      delegate: CustomSearchDelegate(widget.productDetails),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    double paddingSearchBar = MediaQuery.of(context).size.height * 0.04;
     return Theme(
       data: Theme.of(context).copyWith(
         textSelectionTheme: TextSelectionThemeData(
-          cursorColor: Color.fromARGB(255, 27, 76, 82), // Color del cursor
-          selectionColor: const Color.fromARGB(255, 76, 139, 175)
-              .withOpacity(0.4), // Color de la selección del texto
-          selectionHandleColor: const Color.fromARGB(
-              255, 76, 139, 175), // Color del indicador de selección del texto
+          cursorColor: Color.fromARGB(255, 27, 76, 82),
+          selectionColor:
+              const Color.fromARGB(255, 76, 139, 175).withOpacity(0.4),
+          selectionHandleColor: const Color.fromARGB(255, 76, 139, 175),
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30.0),
-        child: TextField(
-          controller: _searchController,
-          decoration: InputDecoration(
-            hintText: 'Buscar producto...',
-            prefixIcon:
-                Icon(Icons.search, color: Color.fromARGB(255, 27, 76, 82)),
-            border: OutlineInputBorder(
-                borderRadius:
-                    BorderRadius.circular(35.0) // Color del borde normal
-                ),
-            focusedBorder: OutlineInputBorder(
+        padding: const EdgeInsets.symmetric(horizontal: paddingSearchBar),
+        child: GestureDetector(
+          onTap: () => _onSearchPressed(context),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                  color: Color.fromARGB(115, 70, 79, 80), width: 1.5),
               borderRadius: BorderRadius.circular(35.0),
-              borderSide: BorderSide(
-                  color: Color.fromARGB(
-                      255, 58, 119, 129)), // Color del borde enfocado
             ),
-            contentPadding: EdgeInsets.symmetric(vertical: 10.0),
-            suffixIcon: IconButton(
-              icon: Icon(
-                Icons.send_rounded,
-                color: Color.fromARGB(255, 27, 76, 82),
-              ),
-              onPressed: () {
-                _submitSearch(_searchController.text);
-              },
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Buscar producto...',
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.04,
+                        color: Colors.grey),
+                  ),
+                ),
+                SizedBox(width: 10),
+                Icon(
+                    size: MediaQuery.of(context).size.width * 0.06,
+                    Icons.search,
+                    color: Color.fromARGB(255, 27, 76, 82)),
+              ],
             ),
           ),
-          onChanged: _submitSearch,
-          onSubmitted: _submitSearch,
+        ),
+      ),
+    );
+  }
+}
+
+class CustomSearchDelegate extends SearchDelegate {
+  final List<Map<String, dynamic>> productDetails;
+
+  CustomSearchDelegate(this.productDetails);
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        padding: EdgeInsets.only(right: 25, top: 20),
+        icon: Icon(
+          color: Color.fromARGB(255, 27, 76, 82),
+          Icons.clear_rounded,
+          size: 27.0,
+        ),
+        onPressed: () {
+          query = '';
+        },
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      padding: EdgeInsets.only(left: 20, top: 20),
+      icon: Icon(
+        color: Color.fromARGB(255, 27, 76, 82),
+        Icons.arrow_back_ios_new_rounded,
+        size: 23,
+      ),
+      onPressed: () {
+        close(context, null);
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    final results = productDetails.where((product) {
+      final productName = product['nombreProducto']?.toLowerCase() ?? '';
+      return productName.contains(query.toLowerCase());
+    }).toList();
+
+    return _buildProductList(results);
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final suggestions = productDetails.where((product) {
+      final productName = product['nombreProducto']?.toLowerCase() ?? '';
+      return productName.contains(query.toLowerCase());
+    }).toList();
+
+    return _buildProductList(suggestions);
+  }
+
+  Widget _buildProductList(List<Map<String, dynamic>> products) {
+    return ListView.builder(
+      itemCount: products.length,
+      itemBuilder: (context, index) {
+        final product = products[index];
+        return _buildProductCard(context, product);
+      },
+    );
+  }
+
+  Widget _buildProductCard(BuildContext context, Map<String, dynamic> product) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductDetailedPage(
+              idTipoProducto: product['idTipoProducto'],
+              idInfoRelevante: product['idInfoRelevante'],
+              nombreProducto: product['nombreProducto'] ?? 'Sin nombre',
+              precio: product['precio'] ?? 0,
+              title: product['categoria'] ?? 'Sin categoría',
+              globalIndex: 0,
+              colorFondo: product['colorFondo'] ?? '#FFFFFF',
+              product: product,
+            ),
+          ),
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 3,
+              blurRadius: 8,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        product['nombreProducto'] ?? 'Sin nombre',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(product['descripcion'] ?? ''),
+                      Text('Precio: \$${product['precio'] ?? 'N/A'}'),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.2,
+              height: MediaQuery.of(context).size.height * 0.15,
+              child: Image.asset(
+                'assets/${product['categoria']}/${product['nombreProducto']}.png',
+                fit: BoxFit.contain,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -312,7 +445,7 @@ class SubTitle extends StatelessWidget {
           Text(
             'Tipos de productos',
             style: GoogleFonts.poppins(
-              fontSize: 30,
+              fontSize: MediaQuery.of(context).size.width * 0.08,
               fontWeight: FontWeight.w600,
               color: Color.fromARGB(255, 27, 76, 82),
             ),
@@ -322,7 +455,7 @@ class SubTitle extends StatelessWidget {
           Text(
             'Navega en las distintas categorías',
             style: GoogleFonts.poppins(
-              fontSize: 15,
+              fontSize: MediaQuery.of(context).size.width * 0.045,
               fontWeight: FontWeight.w500,
               color: const Color.fromARGB(255, 85, 85, 85),
             ),
@@ -347,18 +480,17 @@ class ProductCategory extends StatelessWidget {
       child: Column(
         children: [
           ProductCategoryCard(
-            imagen: 'assets/productosAlimenticios.jpg',
+            imagen: 'assets/TipoDeProducto/productosAlimenticios.jpg',
             texto: 'Productos Alimenticios',
             hasPadding: true,
             onTap: () {
               if (onProductCategoryTap != null) {
-                onProductCategoryTap!(
-                    1); // Por ejemplo, pasa el ID del tipo de producto
+                onProductCategoryTap!(1); // pasa el ID del tipo de producto
               }
             },
           ),
           ProductCategoryCard(
-            imagen: 'assets/electrodomesticos.jpg',
+            imagen: 'assets/TipoDeProducto/electrodomesticos.jpg',
             texto: 'Electrodomésticos',
             hasPadding: true,
             onTap: () {
@@ -368,7 +500,7 @@ class ProductCategory extends StatelessWidget {
             },
           ),
           ProductCategoryCard(
-            imagen: 'assets/hogarCocina.jpg',
+            imagen: 'assets/TipoDeProducto/hogarCocina.jpg',
             texto: 'Accesorios de\nCocina y Hogar',
             hasPadding: true,
             onTap: () {
@@ -378,7 +510,7 @@ class ProductCategory extends StatelessWidget {
             },
           ),
           ProductCategoryCard(
-            imagen: 'assets/limpiezaCuidadoPersonal.png',
+            imagen: 'assets/TipoDeProducto/limpiezaCuidadoPersonal.png',
             texto: 'Productos de Limpieza\ny Cuidado Personal',
             hasPadding: true,
             onTap: () {
@@ -388,7 +520,7 @@ class ProductCategory extends StatelessWidget {
             },
           ),
           ProductCategoryCard(
-            imagen: 'assets/ropaAccesorios.jpg',
+            imagen: 'assets/TipoDeProducto/ropaAccesorios.jpg',
             texto: 'Ropa y Accesorios',
             hasPadding: true,
             onTap: () {
@@ -398,7 +530,7 @@ class ProductCategory extends StatelessWidget {
             },
           ),
           ProductCategoryCard(
-            imagen: 'assets/tecnologiaElectronica.png',
+            imagen: 'assets/TipoDeProducto/tecnologiaElectronica.png',
             texto: 'Tecnología y Electrónica',
             hasPadding: true,
             onTap: () {
@@ -408,7 +540,7 @@ class ProductCategory extends StatelessWidget {
             },
           ),
           ProductCategoryCard(
-            imagen: 'assets/utilesEscolares.jpg',
+            imagen: 'assets/TipoDeProducto/utilesEscolares.jpg',
             texto: 'Útiles Escolares',
             hasPadding: true,
             onTap: () {
@@ -418,7 +550,7 @@ class ProductCategory extends StatelessWidget {
             },
           ),
           ProductCategoryCard(
-            imagen: 'assets/bellezaCuidadoPersonal.jpg',
+            imagen: 'assets/TipoDeProducto/bellezaCuidadoPersonal.jpg',
             texto: 'Belleza y Cuidado\nPersonal',
             hasPadding: false,
             onTap: () {
@@ -464,7 +596,7 @@ class ProductCategoryCard extends StatelessWidget {
                 ),
               ),
               child: Container(
-                height: 150,
+                height: MediaQuery.of(context).size.height * 0.15,
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
@@ -485,7 +617,7 @@ class ProductCategoryCard extends StatelessWidget {
                         texto,
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 17,
+                          fontSize: MediaQuery.of(context).size.width * 0.04,
                           fontWeight: FontWeight.w500,
                         ),
                       ),

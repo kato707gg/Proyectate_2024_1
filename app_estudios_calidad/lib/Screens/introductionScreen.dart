@@ -30,10 +30,10 @@ class _IntroScreenState extends State<IntroScreen> {
   ];
 
   final List<String> _imagePaths = [
-    'assets/persona1.png',
-    'assets/persona2.png',
-    'assets/persona3.png',
-    'assets/persona4.png'
+    'assets/IntroScreen/persona1.png',
+    'assets/IntroScreen/persona2.png',
+    'assets/IntroScreen/persona3.png',
+    'assets/IntroScreen/persona4.png'
   ];
 
   @override

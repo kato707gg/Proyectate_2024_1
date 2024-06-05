@@ -59,6 +59,18 @@ dev_dependencies:
 flutter:
   assets:
     - assets/
+    - assets/IntroScreen/
+    - assets/TipoDeProducto/
+    - assets/Termos Personales/
+    - assets/Mayonesas y aderezos/
+    - assets/Atún envasado/
+    - assets/Cafeteras de goteo/
+    - assets/Pan de caja/
+    - assets/Salsa cátsup/
+    - assets/Servilletas/
+    - assets/Pijamas para niñas y niños/
+    - assets/Sellos/
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
